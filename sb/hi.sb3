@@ -1,0 +1,4 @@
+' Hello :)
+
+PRINT "Welcome!"
+WAIT 350
