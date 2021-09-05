@@ -1,18 +1,29 @@
+' TODO: Alternative method for asynchronous
+' stuff, like Android Citra. Something like
+' swapping between DUMMY1 and DUMMY2, idk.
+' It's okay to do expensive operations like
+' FILES once you know the canary TXT's deleted.
+
+' also lol i haven't tested this in a sec
+
 VAR HOT_PRG$=PRGNAME$()
 VAR HOT_SLOT%=PRGNAME$(0)!=HOT_PRG$
-VAR HOT_TIMER%=30
-VAR HOT_MAX%=20
+VAR HOT_TIMER%=30 ' frames per second
+VAR HOT_MAX%=20 ' frames per second
 
+' Run this every frame.
 DEF HOTRELOAD
 	IF HOT_TIMER%>0 THEN:DEC HOT_TIMER%:RETURN
 	HOT_TIMER%=HOT_MAX%
+	
 	IF CHKFILE("TXT:"+HOT_PRG$) THEN:RETURN
-	VAR KEY1$=KEY(1)
-	KEY 1,"RELOAD"
+	VAR INDICATOR$=KEY(5)
+	KEY 5,"RELOAD"
 	REPEAT
 		VSYNC HOT_MAX%
 	UNTIL CHKFILE("TXT:"+HOT_PRG$)
-	KEY 1,KEY1$
+	KEY 5,"LOAD"
 	LOAD "PRG"+STR$(HOT_SLOT%)+":"+HOT_PRG$,0
+	KEY 5,INDICATOR$
 	EXEC HOT_SLOT%
 END

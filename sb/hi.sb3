@@ -1,4 +1,3 @@
-' Hello :)
-
-PRINT "Welcome!"
-WAIT 350
+PRINT "Hi!"
+?TIME$
+WAIT 398

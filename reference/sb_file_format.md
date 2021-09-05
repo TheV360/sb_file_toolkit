@@ -63,10 +63,11 @@ In SB4, uploader information is slightly longer, to accomodate longer NNIDs. Due
 `&h58`| 4     | The second author's user ID
 `&h70`|       | End of Header
 
-The header ends at `&h50` on 3DS and `&h70` on Switch. Note that there's empty space I think.
+The header ends at `&h50` on 3DS and `&h70` on Switch. Note that there's empty space.
 
-DAT Secondary Header (Petit Computer BiNary)
-TXT and PRG files just place the text after the footer. The DAT and GRP files need *more* information, which is why they have a secondary header. This secondary header stores information for SB to parse the file properly. [I'm assuming the secondary header is after the common header.]
+## DAT Secondary Header (Petit Computer BiNary)
+
+TXT and PRG files just place the UTF-8 text after the footer. However, the DAT and GRP files need *more* information -- the data type, the dimensions, etc.. To store this, they employ a secondary header, stored immediately after the end of the first header. This secondary header stores information for SB to parse the file properly.
 
 (offset is the offset after the header, which changes depending on the version of SmileBASIC in use.)
 (the offset is relative to the end of the common header)
