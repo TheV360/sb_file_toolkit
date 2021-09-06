@@ -10,6 +10,7 @@ use argh::FromArgs;
 // (You can also `use` each item individually, actually)
 #[macro_use]
 extern crate log;
+use simple_logger::SimpleLogger;
 
 mod sb_file;
 
@@ -39,11 +40,18 @@ fn main() {
 		/// the output file to write
 		#[argh(positional)]
 		output: PathBuf,
+		
+		/// writes more info to stderr
+		#[argh(switch, short = 'v')]
+		verbose: bool,
 	}
 	
 	let fa: FileArgs = argh::from_env();
 	
-	env_logger::init();
+	let simp = SimpleLogger::new();
+	if fa.verbose { // TODO: better way?
+		simp.init().expect("Failed to initialize logger");
+	}
 	
 	// https://doc.rust-lang.org/std/path/struct.PathBuf.html
 	let input_file = &fa.input;
@@ -71,6 +79,7 @@ fn main() {
 		};
 		
 		CommonHeader {
+			file_type: FileType::Prg,
 			first_author: author,
 			curr_author: author,
 			file_size,

@@ -149,4 +149,19 @@ pub fn compute_footer(header_bytes: &[u8], file_bytes: &[u8]) -> [u8; FOOTER_LEN
 	bytes
 }
 
-enum DataType { U16, I32, F64 }
+// data stuff
+
+// TODO: write this when not in a car
+enum DataType { U16 = 3, I32 = 4, F64 = 5 }
+
+const DIMENSIONS_MAX: usize = 4;
+pub struct DataHeader {
+	data_type: DataType,
+	dimensions: u8,
+	dimension_sizes: [u32; DIMENSIONS_MAX],
+}
+impl DataHeader {
+	pub fn as_byte_vec(&self) -> Vec<u8> {
+		// TODO
+	}
+}

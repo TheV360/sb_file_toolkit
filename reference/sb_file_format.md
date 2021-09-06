@@ -85,8 +85,7 @@ TXT and PRG files just place the UTF-8 text after the footer. However, the DAT a
 `&h14`| 4     | 32-bit value storing the size of the third dimension if applicable
 `&h18`| 4     | 32-bit value storing the size of the fourth dimension if applicable
 
-
-Afterward, the data is stored in row-major order (https://en.wikipedia.org/wiki/Row-_and_column-major_order) (left-to-right top-to-bottom, instead of top-to-bottom left-to-right).
+Afterward, the data is stored in [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order) (left-to-right top-to-bottom, instead of top-to-bottom left-to-right).
 
 ```
 (Example: Say we have a 9x9 grid of numbers)
@@ -102,10 +101,11 @@ Row-Major:    A D G H B E F I C
 Column-Major: A H F D B I G E C
 ```
 
-## META Project file (Petit Computer Project Metadata
+## META Project file (Petit Computer Project Metadata)
 META files are used in projects to store metadata about a project, including icon, name, and description.
 
 (offset is the offset after the header, which changes depending on the version of SmileBASIC in use.)
+
  Offset | Bytes | Description
 --------|------:|-------------------
 `&h0000`| 8     | Always the ASCII string "PCPM0005"

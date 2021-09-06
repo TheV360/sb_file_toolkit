@@ -1,2 +1,5 @@
 /target
 /.vscode
+strip.sh
+copy_over.sh
+markdown.sh
