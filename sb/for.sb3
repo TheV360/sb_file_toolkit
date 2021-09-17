@@ -1,0 +1,22 @@
+ACLS
+
+FOR J%=0 TO 9
+	FOR I%=0 TO 9
+		LOCATE J%,I%:?"."
+'		VSYNC
+	NEXT
+NEXT
+
+ACLS
+
+'FOR I=0 TO 45
+ 'FOR J=0 TO 50
+  'LOCATE J,I : PRINT "."
+  'VSYNC
+ 'NEXT
+'NEXT
+
+? "lol hijackin this file for saving a sys file to see how it changes"
+VAR D%[0]
+LOAD "DAT:SYS/GAME3",D%,0
+SAVE "DAT:MY_GAME3",D%

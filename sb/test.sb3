@@ -1,0 +1,21 @@
+VAR sizes%[4]
+sizes%[0]=2:sizes%[1]=5:sizes%[2]=10:sizes%[3]=4
+VAR ma#[sizes%[0],sizes%[1],sizes%[2],sizes%[3]]
+VAR a%,b%,c%,d%
+
+VAR inf#=POW(9.0e307,2)
+VAR nan#=inf#/inf#
+
+FOR a%=0 TO sizes%[0]-1
+ FOR b%=0 TO sizes%[1]-1
+  FOR c%=0 TO sizes%[2]-1
+   FOR d%=0 TO sizes%[3]-1
+    ma#[a%,b%,c%,d%]=(((a%*sizes%[0])+b%)*sizes%[1]+c%)*sizes%[2]+d%
+    if a%==0&&b%==0&&c%==0&&d%==0 then:ma#[a%,b%,c%,d%]=nan#
+    if a%==1&&b%==0&&c%==0&&d%==0 then:ma#[a%,b%,c%,d%]=inf#
+   NEXT d%
+  NEXT c%
+ NEXT b%
+NEXT a%
+
+SAVE "DAT:MYDATA",ma#

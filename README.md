@@ -2,6 +2,8 @@
 
 Tool to read/write SmileBASIC files in the command line. Currently only supports writing SB3 TXT/PRG files, which is enough for me.
 
+i think this project (barebones cli app) will take me several years
+
 ## Future Plans
 
 - SB3 DAT files
@@ -10,7 +12,7 @@ Tool to read/write SmileBASIC files in the command line. Currently only supports
 
 ## Documentation
 
-Thanks to [clap](https://lib.rs/crates/clap), (and a few hundred extra kilobytes) you can say `sb_tools --help` and it'll tell you all the things! Also, check the `reference` folder for the materials I referenced while making this.
+Use `sb_tools --help` at the command line to see the full command reference. Also, check the `reference` folder for the materials I referenced while making this.
 
 Invocation should look kinda like this.
 
@@ -20,7 +22,7 @@ TODO: there will be flags
 
 ### Converting a File
 
-Let's say you have a SmileBASIC 3 program named `hi.prg`.
+Let's say you have a SmileBASIC 3 program named `hi.sb3`.
 
 ```smilebasic
 ' This is my program
@@ -31,7 +33,7 @@ WAIT 398
 To convert it to a file your 3DS can accept, just run...
 
 ```shell
-$ ./sb_tools hi.prg HI
+$ ./sb_tools hi.sb3 HI
 ```
 
 (TODO: should actually have it work like this) If you don't supply the prefix, (the `T` in the resulting `THI`) the tool will add it for you!

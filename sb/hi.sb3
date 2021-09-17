@@ -1,3 +1,34 @@
+' :: sb_tools metadata :: '
+REM @version  sb3
+REM @type     txt
+REM @icon     prg
+REM @size     auto
+REM @modified auto
+REM @creator  42069 "V360"
+' ::::::::::::::::::::::: '
+
 PRINT "Hi!"
 ?TIME$
 WAIT 398
+
+REM Hello, internet!
+' Welcome to Game Theory\
+PRINT "Something"
+
+DEF MY_FN()
+	' This is a function
+	VAR ID% = SPSET(413)
+	SPHOME ID%,8,8
+	SPOFS ID%,RND(384)+8,RND(224)+8
+	RETURN ID%
+END
+
+DEF EAT FOOD:END
+
+FOR I=1 TO 100 STEP 10
+	EAT MY_FN()
+NEXT
+
+WHILE 1
+	VSYNC
+WEND
