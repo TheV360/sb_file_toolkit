@@ -63,6 +63,7 @@ Offset | Bytes | Type | Description
 `&h26` | 18    | string | The second author's (the last editor) NNID. This one is displayed in the project browser
 `&h38` | 4     | i32  | The first author's user ID. Used for controlling the blacklist editable in the project download area
 `&h3C` | 4     | i32  | The second author's user ID
+`&h40` | 16    | ?    | Unknown
 `&h50` |       |      | End of Header
 
 ### <span id="uploader_switch">Switch Uploader Information</span>
@@ -73,6 +74,7 @@ Offset | Bytes | Type | Description
 `&h34` | 32    | string | The second author's (the last editor) NNID. This one is displayed in the project browser
 `&h54` | 4     | i32  | The first author's user ID. Used for controlling the blacklist editable in the project download area
 `&h58` | 4     | i32  | The second author's user ID
+`&h5C` | 20    | ?    | Unknown
 `&h70` |       |      | End of Header
 
 The header ends at `&h50` on 3DS and `&h70` on Switch. Note that there's empty space.
