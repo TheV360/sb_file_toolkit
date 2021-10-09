@@ -38,9 +38,9 @@ The shared part of every SB file is the common header. This contains information
 
 Offset | Bytes | Type | Description
 ------:|------:|-----:|------------
-`&h00` | 2     | i16  | File Version<br /><table><tr><th>Value</th><th>Description</th></tr><tr><td>0</td><td>SmileBASIC 3 System Files (?)</td></tr><tr><td>1</td><td>SmileBASIC 3</td></tr><tr><td>4</td><td>SmileBASIC 4</td></tr></table>
-`&h02` | 2     | i16  | File Type<br /><table><tr><th>Value</th><th>Type</th></tr><tr><td>0</td><td>TXT</td></tr><tr><td>1</td><td>DAT (includes SB3 GRPs)</td></tr><tr><td>2</td><td>GRP (SB4 only)</td></tr><tr><td>4</td><td>META (SB4 only)</td></tr></table>
-`&h04` | 2     | i16  | Zlib Compression<br /><table><tr><th>Value</th><th>well, it's a boolean</th></tr><tr><td>0</td><td>No Compression</td></tr><tr><td>1</td><td>Compression</td></tr></table>
+`&h00` | 2     | i16  | File Version<br /><table><thead><tr><th>Value<th>Description<tbody><tr><td>0<td>SmileBASIC 3 System Files (?)<tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
+`&h02` | 2     | i16  | File Type<br /><table><thead><tr><th>Value<th>Type<tbody><tr><td>0<td>TXT<tr><td>1<td>DAT (includes SB3 GRPs)<tr><td>2<td>GRP (SB4 only)<tr><td>4<td>META (SB4 only)</table>
+`&h04` | 2     | i16  | Zlib Compression<br /><table><thead><tr><th>Value<th>well, it's a boolean<tbody><tr><td>0<td>No Compression<tr><td>1<td>Compression</table>
 `&h06` | 2     | i16  | Project Browser Icon<br />For TXT files: 0 = TXT and 1 = PRG<br />For DAT files: 0 = DAT and 2 = GRP
 `&h08` | 4     | i32  | File Size<br />stores the size of the file contents. (Header/footer not included)
 `&h0C` | 2     | i16  | Last mod. date: year
@@ -108,8 +108,8 @@ Of course, the integers are stored in little-endian. The device type, it being a
 
 Offset | Bytes | Type | Description
 ------:|------:|-----:|------------
-`&h00` | 8     | string | Always the ASCII string "PCBN000n", where n is the device type <span style="color:red">(V360 note: i looked at SYS/GAME3 and GAME3_roundtripped and they're both 1 for the device type? so device type is ≈ the device played on TODO: please)</span><br />This is similar to the [common header](#common_header)'s File Version field, but it doesn't have the internal ID.<table><tr><th>Value</th><th>Data Type</th></tr><tr><td>1</td><td>SmileBASIC 3</td></tr><tr><td>4</td><td>SmileBASIC 4</td></tr></table>
-`&h08` | 2     | i16 | Data type<br /><table><tr><th>Value</th><th>Data Type</th></tr><tr><td>3</td><td>Unsigned 16-bit Integer - SB3 GRPs, as RGBA5551</td></tr><tr><td>4</td><td>Signed 32-bit Integer - VAR% arrays; SB4 GRPs, as RGBA8888</td></tr><tr><td>5</td><td>64-bit Double - VAR# arrays</td></tr></table>
+`&h00` | 8     | string | Always the ASCII string "PCBN000n", where n is the device type <span style="color:red">(V360 note: i looked at SYS/GAME3 and GAME3_roundtripped and they're both 1 for the device type? so device type is ≈ the device played on TODO: please)</span><br />This is similar to the [common header](#common_header)'s File Version field, but it doesn't have the internal ID.<table><thead><tr><th>Value<th>Data Type<tbody><tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
+`&h08` | 2     | i16 | Data type<br /><table><thead><tr><th>Value<th>Data Type<tbody><tr><td>3<td>Unsigned 16-bit Integer - SB3 GRPs, as RGBA5551<tr><td>4<td>Signed 32-bit Integer - VAR% arrays; SB4 GRPs, as RGBA8888<tr><td>5<td>64-bit Double - VAR# arrays</table>
 `&h0A` | 2     | i16 | Number of dimensions (1-4)
 `&h0C` | 4     | i32 | size of the first dimension
 `&h10` | 4     | i32 | size of the second dimension (if applicable)

@@ -76,6 +76,11 @@ if the metadata is not present, it'll be generated from sensible presets. i don'
 
 the goal is to round trip a file and have it be byte-for-byte equal
 
+
+What the hell is going on with unknown_1 and unknown_2. is unk_1 1 byte or 8? why is it also set to 3?
+* unk1 is 1 byte.
+* unk2 is 16B in sb3 & 20B in sb4
+
 # How about subcommands and a simple input-output default command?
 
 as in
@@ -85,7 +90,7 @@ as in
 ### To SmileBASIC Formats
 ```
 $ sb_tools for.sb3 FOR
-Converting from Text to SmileBASIC 3 Text
+Plain Text -> SmileBASIC 3 Text.
 Added prefix. Filename is now "TFOR".
 Converted.
 $ sb_tools hi.dat
@@ -102,3 +107,11 @@ Creator: V360 (42069)
 Editor:  V360 (42069)
 Last Mod: 2019-12-23 11:19 PM
 ```
+
+# what to do with bit-for-bit stuff
+
+i might still try to do that human-readable header thing, becuase it's cool.
+
+so, when load a file, i'll borrow the first 2 bytes to check the version, then branch based off that.
+
+
