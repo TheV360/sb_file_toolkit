@@ -54,6 +54,18 @@ if found while converting from TXT->SB
 ' :: sb_tools metadata :: '
 ```
 
+compact exmaple
+```vb
+' :: metadata :: '
+' version:  sb3
+' type:     txt
+' icon:     prg
+' size:     auto
+' mod: 2021/04/20 13:37:00
+' creator: 42069 V360
+' :: metadata :: '
+```
+
 the metadata representation is mostly the same as sb_file_format stuff. hell this references that too. use that.
 
 name|values|needs validation for

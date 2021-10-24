@@ -1,10 +1,12 @@
 // https://sbapi-team.github.io/SmileBASIC-FileParser/
 // i don't know how to do this
 
-// AAAAAAAAAAAAAAAAAAAAAAAAA What
-
-// ported from https://12me21.github.io/sbtools/
+// hacked together from https://12me21.github.io/sbtools/
 // to https://deno.land or whatev er
+
+// updated to trim a buncha unused stuff
+// this is an artifact, really -- made it to convert txt to prg and nothing else
+// could try to get the rest working but i'm a fool
 
 // i have no concept of current directory
 /** @type {string} */
@@ -26,7 +28,7 @@ var $dimensions = 1;
 var $dimension1 = 0, $dimension2 = 0, $dimension3 = 0, $dimension4 = 0;
 var $icon = 1;
 var $date = [0, 2021, 5, 31], $time = [0, 13, 12], $seconds= 1;
-var $author = "V360Tech", $uid = 42069;
+var $author = "V360Tech", $uid = 42069; // very cool name you got there
 
 function main() {
 	let bytes = new Uint8Array(fuckinUTF8Bytes(TEXT));
@@ -185,26 +187,11 @@ function writeFile(header, data) {
 	if (IS_DAT) {
 		console.warn("entered an invalid zone. i don't like it");
 		return "oops";
-		const TYPE = header.dataType;
-		if (TYPE == 3) //col
-			dataLength = Math.ceil(dataLength / 2) * 2;
-		else if (TYPE == 4) //int
-			dataLength = Math.ceil(dataLength / 4) * 4;
-		else if (TYPE == 5) //float
-			dataLength = Math.ceil(dataLength / 8) * 8;
-
-		dataLength += DAT_HEADER_SIZE;
-		var newData = new Uint8Array(dataLength);
-		templateSet(newData, DAT_HEADER, header, 0);
-		newData.set(data, DAT_HEADER_SIZE);
-		data = newData;
 	}
 
 	if (header.compression) {
 		console.warn("entered an invalid zone. i don't like it");
 		return "oops";
-		data = pako.deflate(data);
-		dataLength = data.length;
 	}
 
 	var file = new Uint8Array(HEADER_SIZE + dataLength + FOOTER_SIZE);
@@ -313,29 +300,10 @@ function setCurrentTime() {
 	writeDateTime(now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes());
 	$seconds = now.getSeconds();
 }
-// used in ui. don't need a ui.
-function readDateTime() {
-	// var date = $date.match(/(\d{4})-(\d{2})-(\d{2})/) || [undefined, 2000, 1, 1];
-	// var time = $time.match(/(\d{2}):(\d{2})/) || [undefined, 0, 0];
-	// return [+date[1], +date[2], +date[3], +time[1], +time[2]];
-}
 function writeDateTime(year, month, day, hour, minute) {
 	$date = pad(clamp(year, 0, 9999), 4) + "-" + pad(clamp(month, 0, 99), 2) + "-" + pad(clamp(day, 0, 99), 2);
 	$time = pad(clamp(hour, 0, 99), 2) + ":" + pad(clamp(minute, 0, 99), 2);
 }
-
-// read a sb file. I wanna write SB files, so this isn't here
-/*function sbFileUpload(x){
-	var reader=new FileReader();
-	reader.onload=function(z){
-		var header = {};
-		fileData=readFile(new Uint8Array(reader.result),header);
-		writeSettings(header);
-		$name = x.files[0].name.substr(1);
-	}
-	console.log(x);
-	reader.readAsArrayBuffer(x.files[0]);
-}*/
 
 function fileUpload(filename) {
 	var reader = new FileReader();
@@ -376,24 +344,6 @@ function doSave(data, name) {
 function imageToGrp(image) {
 	console.warn("entered an invalid zone. i don't like it");
 	return "oops";
-	$canvas.width = image.width;
-	$canvas.height = image.height;
-	var c2d = $canvas.getContext("2d");
-	c2d.drawImage(image, 0, 0, image.width, image.height);
-	fileData = new Uint8Array(image.width * image.height * 2);
-	var view = new DataView(fileData.buffer);
-	console.log(0, 0, image.width, image.height);
-	data = c2d.getImageData(0, 0, image.width, image.height).data;
-	for (var i = 0; i < data.length / 4; i++) {
-		view.setUint16(i * 2, col16(data[i * 4 + 3], data[i * 4], data[i * 4 + 1], data[i * 4 + 2]), true);
-	}
-	$fileType = 1;
-	$icon = 1;
-	$dataType = 3;
-	$dimensions = 2;
-	$dimension1 = image.width;
-	$dimension2 = image.height;
-	$canvas.width = $canvas.height = 0;
 }
 
 // make a header from the settings
@@ -421,27 +371,6 @@ function readSettings() {
 		header.dimension4 = +$dimension4;
 	}
 	return header;
-}
-// write settings back into UI
-function writeSettings(header) {
-	console.warn("entered a worrying zone. i don't like it");
-	console.log(header);
-	const IS_DAT = header.fileType == 1;
-	$fileType = header.fileType;
-	$icon = header.icon;
-	writeDateTime(header.year, header.month, header.day, header.hour, header.minute);
-	$seconds = header.second;
-	$author = header.author1;
-	$uid = header.uid1;
-	$compression = header.compression;
-	if (IS_DAT) {
-		$dataType = header.dataType;
-		$dimensions = header.dimensions;
-		$dimension1 = header.dimension1;
-		$dimension2 = header.dimension2;
-		$dimension3 = header.dimension3;
-		$dimension4 = header.dimension4;
-	}
 }
 
 main();

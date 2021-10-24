@@ -8,6 +8,8 @@ Name | Size
 [DAT Secondary Header](#dat_header) | `&h1C` ()
 [Common Footer](#common_footer) | `&h14`
 
+<!-- TODO: remember what i was doing in those above parentheses -->
+
 ## Note from Record
 > Quick note: I didn't figure out most of the format of SB files. Trinitro21 did most of the work figuring out the file structure, and the footer was thanks to code plutooo had for smilehax. I just wrote this document, which sums everything we know.  
 DISCLAIMER: This is not 100% correct and may change at any time.  
@@ -38,7 +40,7 @@ The shared part of every SB file is the common header. This contains information
 
 Offset | Bytes | Type | Description
 ------:|------:|-----:|------------
-`&h00` | 2     | i16  | File Version<br /><table><thead><tr><th>Value<th>Description<tbody><tr><td>0<td>SmileBASIC 3 System Files (?)<tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
+`&h00` | 2     | i16  | File Version<br /><table><thead><tr><th>Value<th>Description<tbody><tr><td>≤3<td>SmileBASIC 3 (Some system files may mistakenly have 0)<tr><td>4<td>SmileBASIC 4</table>
 `&h02` | 2     | i16  | File Type<br /><table><thead><tr><th>Value<th>Type<tbody><tr><td>0<td>TXT<tr><td>1<td>DAT (includes SB3 GRPs)<tr><td>2<td>GRP (SB4 only)<tr><td>4<td>META (SB4 only)</table>
 `&h04` | 2     | i16  | Zlib Compression<br /><table><thead><tr><th>Value<th>well, it's a boolean<tbody><tr><td>0<td>No Compression<tr><td>1<td>Compression</table>
 `&h06` | 2     | i16  | Project Browser Icon<br />For TXT files: 0 = TXT and 1 = PRG<br />For DAT files: 0 = DAT and 2 = GRP
@@ -49,7 +51,7 @@ Offset | Bytes | Type | Description
 `&h10` | 1     | i8   | Last mod. date: hour
 `&h11` | 1     | i8   | Last mod. date: minute
 `&h12` | 1     | i8   | Last mod. date: second
-`&h13` | 1     | i8   | Unknown, may be part of mod. date
+`&h13` | 1     | i8   | Padding(?), may be part of mod. date
 
 Any files with a file version of 0 loaded will become files with a file version of 1 when saved. This is obvious -- it's a round trip from SYS to an array to a user project, of course it's the same.
 
@@ -108,7 +110,7 @@ Of course, the integers are stored in little-endian. The device type, it being a
 
 Offset | Bytes | Type | Description
 ------:|------:|-----:|------------
-`&h00` | 8     | string | Always the ASCII string "PCBN000n", where n is the device type <span style="color:red">(V360 note: i looked at SYS/GAME3 and GAME3_roundtripped and they're both 1 for the device type? so device type is ≈ the device played on TODO: please)</span><br />This is similar to the [common header](#common_header)'s File Version field, but it doesn't have the internal ID.<table><thead><tr><th>Value<th>Data Type<tbody><tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
+`&h00` | 8     | string | Always the ASCII string "PCBN000n", where n is the device type<br />This is similar to the [common header](#common_header)'s File Version field.<table><thead><tr><th>Value<th>Data Type<tbody><tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
 `&h08` | 2     | i16 | Data type<br /><table><thead><tr><th>Value<th>Data Type<tbody><tr><td>3<td>Unsigned 16-bit Integer - SB3 GRPs, as RGBA5551<tr><td>4<td>Signed 32-bit Integer - VAR% arrays; SB4 GRPs, as RGBA8888<tr><td>5<td>64-bit Double - VAR# arrays</table>
 `&h0A` | 2     | i16 | Number of dimensions (1-4)
 `&h0C` | 4     | i32 | size of the first dimension
