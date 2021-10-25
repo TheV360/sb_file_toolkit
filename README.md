@@ -1,12 +1,13 @@
 # SmileBASIC File Toolkit
 
-Tool to read/write SmileBASIC files in the command line. Currently only supports writing SB3 TXT/PRG files, which is enough for me.
+<span style="color: red">this is work-in-progress software. This currently only supports writing SB3 TXT/PRG files, and i'm gonna reorganize most things very soon.</span> Check the credits section for stable online tools for converting SmileBASIC files.
 
-i think this project (barebones cli app) will take me several years
+Tool to read/write SmileBASIC files from the command line.
 
 ## Future Plans
 
 - SB3 DAT files
+- Compression (see sb general channel 2021-10-24)
 - BMP/PNG to GRP
 - SB4 files maybe
 
@@ -52,3 +53,5 @@ I loosely based this off their stuff. Hell, if you look in the `reference` folde
 * [12Me21](https://github.com/12Me21/) ([& co.](https://github.com/12Me21/sbtools/blob/4e4ccaa5181120a6d0f9920c7c3a9e62338eea65/sbfile.js#L169)) - [JavaScript file parser / writer](https://github.com/12Me21/sbtools) ([online](https://12me21.github.io/sbtools/))
 * [SmileBASIC API Team](https://github.com/SBAPI-Team) - [TypeScript file parser / writer](https://github.com/SBAPI-Team/SmileBASIC-FileParser)
 * third item
+
+<span style="opacity: 0.25">i think this project (barebones cli app) will take me several years</span>
