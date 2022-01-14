@@ -1,6 +1,8 @@
-# SmileBASIC File Toolkit
+## <span style="color: red">this is work-in-progress software. This currently only supports writing SB3 TXT/PRG files, and i'm gonna reorganize most things very soon.</span>
 
-<span style="color: red">this is work-in-progress software. This currently only supports writing SB3 TXT/PRG files, and i'm gonna reorganize most things very soon.</span> Check the credits section for stable online tools for converting SmileBASIC files.
+Check the credits section for stable online tools for converting SmileBASIC files.
+
+# SmileBASIC File Toolkit
 
 Tool to read/write SmileBASIC files from the command line.
 
@@ -9,6 +11,10 @@ Tool to read/write SmileBASIC files from the command line.
 - SB3 DAT files
 - Compression (see sb general channel 2021-10-24)
 - BMP/PNG to GRP
+
+### Distant Future Plans (have to have the solid foundation first)
+
+- SB3 project support (SBAPI's file format doc will have the info on this)
 - SB4 files maybe
 
 ## Documentation
@@ -40,6 +46,8 @@ $ ./sb_tools hi.sb3 HI
 (TODO: should actually have it work like this) If you don't supply the prefix, (the `T` in the resulting `THI`) the tool will add it for you!
 
 ## Contribution
+
+yeah :)
 
 ## License
 

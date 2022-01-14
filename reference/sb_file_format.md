@@ -113,10 +113,10 @@ Offset | Bytes | Type | Description
 `&h00` | 8     | string | Always the ASCII string "PCBN000n", where n is the device type<br />This is similar to the [common header](#common_header)'s File Version field.<table><thead><tr><th>Value<th>Data Type<tbody><tr><td>1<td>SmileBASIC 3<tr><td>4<td>SmileBASIC 4</table>
 `&h08` | 2     | i16 | Data type<br /><table><thead><tr><th>Value<th>Data Type<tbody><tr><td>3<td>Unsigned 16-bit Integer - SB3 GRPs, as RGBA5551<tr><td>4<td>Signed 32-bit Integer - VAR% arrays; SB4 GRPs, as RGBA8888<tr><td>5<td>64-bit Double - VAR# arrays</table>
 `&h0A` | 2     | i16 | Number of dimensions (1-4)
-`&h0C` | 4     | i32 | size of the first dimension
-`&h10` | 4     | i32 | size of the second dimension (if applicable)
-`&h14` | 4     | i32 | size of the third dimension (if applicable)
-`&h18` | 4     | i32 | size of the fourth dimension (if applicable)
+`&h0C` | 4     | i32 | Size of the first dimension
+`&h10` | 4     | i32 | Size of the second dimension (if applicable)
+`&h14` | 4     | i32 | Size of the third dimension (if applicable)
+`&h18` | 4     | i32 | Size of the fourth dimension (if applicable)
 `&h1C` |       |     | End of Header
 
 Afterward, the data is stored in [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order) (left-to-right wrapping from top-to-bottom, instead of top-to-bottom wrapping from left-to-right).
