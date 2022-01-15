@@ -1,5 +1,5 @@
 [package]
-name = "sb_tools"
+name = "sb_file_toolkit"
 description = "Tool to read/write SmileBASIC files in the command line. (Currently only supports SB3 TXT/PRG files)"
 version = "0.0.1"
 authors = ["V360 <v360code@gmail.com>"]
