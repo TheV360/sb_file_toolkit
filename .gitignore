@@ -1,8 +1,8 @@
 /target
 /.vscode
-strip.sh
-copy_over.sh
-markdown.sh
-not yet/
+/*.sh
+/reference/not yet/
+/reference/ptc_*
+/reference/12_sbtools.js
+/sb/in/
 /sb/out/
-12_sbtools.js
