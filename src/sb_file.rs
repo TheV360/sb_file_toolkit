@@ -109,7 +109,7 @@ impl fmt::Display for FileIcon {
 // second - `i8`
 
 /// One of the few things that's the same between both versions.
-pub const DATETIME_LENGTH: usize = 7;
+pub const DATETIME_LENGTH: usize = 8;
 
 /// The SmileBASIC file's last modification date & time.
 /// Thanks to these being signed integers, they can indeed
@@ -117,8 +117,8 @@ pub const DATETIME_LENGTH: usize = 7;
 #[derive(Debug, Clone, Copy)]
 pub struct DateTime {
 	pub year: i16, pub month: i8, pub day: i8,
-	pub hour: i8, pub minute: i8, pub second: i8
-	
+	pub hour: i8, pub minute: i8, pub second: i8,
+	pub weekday: i8,
 }
 impl DateTime {
 	pub fn to_le_bytes(self) -> [u8; DATETIME_LENGTH] {
@@ -126,7 +126,8 @@ impl DateTime {
 		[
 			year_bytes[0], year_bytes[1],
 			self.month as u8, self.day as u8,
-			self.hour as u8, self.minute as u8, self.second as u8
+			self.hour as u8, self.minute as u8, self.second as u8,
+			self.weekday as u8,
 		]
 	}
 }
@@ -135,24 +136,28 @@ impl Default for DateTime {
 		DateTime {
 			year: 2069, month: 4, day: 20,
 			hour: 13, minute: 37, second: 30,
+			weekday: 6,
 		}
 	}
 }
-impl From<[u8; 7]> for DateTime {
-	fn from(value: [u8; 7]) -> Self {
+impl From<[u8; 8]> for DateTime {
+	fn from(value: [u8; 8]) -> Self {
 		DateTime {
 			year: i16::from_le_bytes(value[0..2].try_into().unwrap()),
 			month: value[2] as i8, day: value[3] as i8,
 			hour: value[4] as i8, minute: value[5] as i8,
-			second: value[6] as i8
+			second: value[6] as i8,
+			weekday: value[7] as i8,
 		}
 	}
 }
 impl fmt::Display for DateTime {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		let wday = *["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+			.get(self.weekday as usize).unwrap_or(&"???");
 		write!(
-			f, "{:}/{:02}/{:02} {:02}:{:02}:{:02}",
-			self.year, self.month, self.day,
+			f, "{:}/{:02}/{:02} ({}) {:02}:{:02}:{:02}",
+			self.year, self.month, self.day, wday,
 			self.hour, self.minute, self.second
 		)
 	}
@@ -215,7 +220,6 @@ pub struct CommonHeader {
 	pub file_icon: FileIcon,
 	pub file_size: i32,
 	pub mod_date: DateTime,
-	pub padding: i8,
 	pub first_author: Author,
 	pub curr_author: Author,
 	//  unknown: [u8; 16] | sb4: [u8; 20],
@@ -241,11 +245,8 @@ impl CommonHeader {
 		
 		// if you put the first line's rhs into the second's DateTime::from,
 		// it just fucks up this whole scene. what????
-		let mod_date_arr: [u8; 7] = data[0x0c..0x13].try_into().unwrap();
+		let mod_date_arr: [u8; DATETIME_LENGTH] = data[0x0c..0x14].try_into().unwrap();
 		let mod_date = DateTime::from(mod_date_arr);
-		
-		// this is literally nothing, most of the time
-		let padding = data[0x13] as i8;
 		
 		let first_author_nnid = &data[0x14..][..AUTHOR_NAME_MAX];
 		let curr_author_nnid  = &data[0x26..][..AUTHOR_NAME_MAX];
@@ -259,7 +260,6 @@ impl CommonHeader {
 		Ok(CommonHeader {
 			version, file_type, compressed,
 			file_icon, file_size, mod_date,
-			padding,
 			first_author, curr_author,
 		})
 	}
@@ -269,8 +269,7 @@ impl CommonHeader {
 		data[4..6].copy_from_slice(&i16::to_le_bytes(self.compressed as i16));
 		data[6..8].copy_from_slice(&i16::to_le_bytes(self.file_icon as i16));
 		data[8..0x0c].copy_from_slice(&i32::to_le_bytes(self.file_size as i32));
-		data[0x0c..0x13].copy_from_slice(&self.mod_date.to_le_bytes());
-		data[0x13] = self.padding as u8;
+		data[0x0c..0x14].copy_from_slice(&self.mod_date.to_le_bytes());
 		data[0x14..][..18].copy_from_slice(&self.first_author.nnid);
 		data[0x26..][..18].copy_from_slice(&self.curr_author.nnid);
 		data[0x38..][..4].copy_from_slice(&i32::to_le_bytes(self.first_author.id));
@@ -291,7 +290,6 @@ impl Default for CommonHeader {
 			file_icon: FileIcon::Prg,
 			file_size: -1,
 			mod_date: DateTime::default(),
-			padding: 0,
 			first_author: Author::default(),
 			curr_author: Author::default(),
 		}

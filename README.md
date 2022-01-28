@@ -60,6 +60,7 @@ I loosely based this off their stuff. Hell, if you look in the `reference` folde
 * [SmileBASIC file format](https://old.smilebasicsource.com/page?pid=652)
 * [12Me21](https://github.com/12Me21/) ([& co.](https://github.com/12Me21/sbtools/blob/4e4ccaa5181120a6d0f9920c7c3a9e62338eea65/sbfile.js#L169)) - [JavaScript file parser / writer](https://github.com/12Me21/sbtools) ([online](https://12me21.github.io/sbtools/))
 * [SmileBASIC API Team](https://github.com/SBAPI-Team) - [TypeScript file parser / writer](https://github.com/SBAPI-Team/SmileBASIC-FileParser)
+* [CyberYoshi64](https://old.smilebasicsource.com/page?pid=652&cid=16904#comment_16904) - It's the weekday. The unknown DateTime byte was the weekday.
 * third item
 
 <span style="opacity: 0.25">i think this project (barebones cli app) will take me several years</span>
