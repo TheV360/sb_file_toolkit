@@ -330,7 +330,10 @@ impl TryFrom<i16> for DataType {
 	fn try_from(value: i16) -> Result<Self, Self::Error> {
 		use DataType::*;
 		match value {
-			3 => Ok(U16), 4 => Ok(I32), 5 => Ok(F64),
+			0 => Ok(I8),  1 => Ok(U8),
+			2 => Ok(I16), 3 => Ok(U16),
+			4 => Ok(I32),
+			5 => Ok(F64),
 			_ => Err("Unknown Data Type"),
 		}
 	}
