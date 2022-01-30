@@ -6,7 +6,7 @@ use hmac::{Hmac, Mac, NewMac};
 type Sha1Hmac = Hmac<Sha1>;
 
 // hmac key
-const HMAC_KEY: [u8; 64] = *include_bytes!("hmac_key.bin");
+const HMAC_KEY: &[u8; 64] = include_bytes!("hmac_key.bin");
 
 // file version
 #[repr(i16)]
@@ -310,7 +310,7 @@ impl fmt::Display for CommonHeader {
 
 pub const FOOTER_LENGTH: usize = 20;
 pub fn compute_footer(header_bytes: &[u8; HEADER_LENGTH_SB3], file_bytes: &[u8]) -> [u8; FOOTER_LENGTH] {
-	let mut hasher = Sha1Hmac::new_from_slice(&HMAC_KEY)
+	let mut hasher = Sha1Hmac::new_from_slice(HMAC_KEY)
 		.expect("Failed to create hasher while computing footer.");
 	hasher.update(header_bytes.as_ref());
 	hasher.update(file_bytes);
@@ -324,7 +324,7 @@ pub fn compute_footer(header_bytes: &[u8; HEADER_LENGTH_SB3], file_bytes: &[u8])
 
 #[repr(u8)]
 #[derive(Debug, Clone, Copy)]
-pub enum DataType { U16 = 3, I32 = 4, F64 = 5 }
+pub enum DataType { I8 = 0, U8 = 1, I16 = 2, U16 = 3, I32 = 4, F64 = 5 }
 impl TryFrom<i16> for DataType {
 	type Error = &'static str;
 	fn try_from(value: i16) -> Result<Self, Self::Error> {
