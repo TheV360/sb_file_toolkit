@@ -123,20 +123,7 @@ Offset | Bytes | Type | Description
 
 #### Note about Data Types
 
-The first 3 data types (all thought unusable until they were found to just be unused) are encoded in little-endian order. This means this file:...
-
-```
-Data type: i8
-Data: 00 01 02 03 04 05 06 07
-```
-
-...will be loaded as this, inside SmileBASIC:
-
-```smilebasic
-DATA 3, 2, 1, 0, 7, 6, 5, 4
-```
-
-Since SmileBASIC integers are larger than these integers, the values must be expanded in some way. Values will be zero-padded if the file type is unsigned, or sign-extended if the file type is signed. (TODO: jank)
+The first 3 data types were all thought unusable until they were found to just be unused. Since SmileBASIC integers (32-bit signed integers) are larger than these integers, the values must be expanded in some way. Values will be zero-padded if the file type is unsigned, or sign-extended if the file type is signed.
 
 #### Note about storage order
 
