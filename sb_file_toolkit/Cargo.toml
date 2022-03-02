@@ -1,0 +1,20 @@
+[package]
+name = "sb_file_toolkit"
+description = "Tool to read/write SmileBASIC files in the command line. (Currently only supports SB3 TXT/PRG files)"
+version = "0.0.1"
+authors = ["V360 <v360code@gmail.com>"]
+edition = "2021"
+readme = "README.md"
+
+[dependencies]
+sb_file_lib = { path = "../sb_file_lib" }
+log = "0.4" # pretty
+simple_logger = { version = "2.1", default_features = false, features = ["stderr"] }
+argh = "0.1.6" # cli
+
+# maybe soon ...
+# notify = "4.0.16" # cli watch utility
+
+# ditched (because of) ...
+# env_logger = "0.9.0" # footprint
+# clap = "3.0.0-beta.4" # footprint

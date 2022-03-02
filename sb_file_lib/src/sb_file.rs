@@ -205,7 +205,7 @@ impl Default for Author {
 impl fmt::Display for Author {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		let nnid = String::from_utf8_lossy(&self.nnid);
-		write!(f, "`{}` ({})", nnid, self.id)
+		write!(f, "`{}` (ID: {})", nnid, self.id)
 	}
 }
 

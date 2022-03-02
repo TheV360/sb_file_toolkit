@@ -1,0 +1,19 @@
+[package]
+name = "sb_file_lib"
+version = "0.0.1"
+authors = ["V360 <v360code@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+nom = "7.1.0" # parser tools
+sha-1 = "0.9.8" # sb3 & sb4
+hmac = "0.11.0" # sb3 & sb4
+ucs2 = "0.3.2" # sb2 & sb4
+
+# maybe soon ...
+# md-5 = "0.9.1" # sb2
+# fatfs = "0.????" # sb2 (maybe overkill)
+# flate2 = "1.0.21" # sb3 zlib stuff
+# miniz_oxide = "0.5.1" # sb3 zlib stuff (smaller footprint) (but it might be harder to use?)

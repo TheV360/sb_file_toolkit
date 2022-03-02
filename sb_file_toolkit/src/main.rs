@@ -12,8 +12,7 @@ use argh::{FromArgValue, FromArgs};
 extern crate log;
 use simple_logger::SimpleLogger;
 
-mod sb_file;
-use sb_file::{CommonHeader, DataHeader};
+use sb_file_lib::sb_file::{CommonHeader, DataHeader};
 
 fn main() {
 	// FIXME: would be nice if the output name was generated if not present
@@ -28,17 +27,17 @@ fn main() {
 	.about(crate_description!())
 	...I'll miss you. */
 	
-	enum ConvertDirection { ToSb, ToPc }
-	impl FromArgValue for ConvertDirection {
-		fn from_arg_value(value: &str) -> Result<Self, String> {
-			use ConvertDirection::*;
-			match value {
-				"sb" => Ok(ToSb),
-				"pc" => Ok(ToPc),
-				_ => Err("Invalid Conversion".to_owned()),
-			}
-		}
-	}
+	// enum ConvertDirection { ToSb, ToPc }
+	// impl FromArgValue for ConvertDirection {
+	// 	fn from_arg_value(value: &str) -> Result<Self, String> {
+	// 		use ConvertDirection::*;
+	// 		match value {
+	// 			"sb" => Ok(ToSb),
+	// 			"pc" => Ok(ToPc),
+	// 			_ => Err("Invalid Conversion".to_owned()),
+	// 		}
+	// 	}
+	// }
 	
 	#[derive(FromArgs)]
 	/// SmileBASIC File Toolkit
@@ -50,34 +49,33 @@ fn main() {
 		#[argh(positional)]
 		input: PathBuf,
 		
-		/// the type of the input
-		/// if not included, will be assumed based on the extension
-		/// txt, png/bmp
-		#[argh(option)]
-		convert_to: Option<ConvertDirection>,
+		// /// the type of the input
+		// /// if not included, will be assumed based on the extension
+		// /// txt, png/bmp
+		// #[argh(option)]
+		// convert_to: Option<ConvertDirection>,
 		
 		/// the output file to write
 		#[argh(positional)]
 		output: Option<PathBuf>,
 		
-		/// disables regarding/writing human-readable metadata
-		#[argh(switch, short = 'b')]
-		verbatim: bool,
+		// /// disables regarding/writing human-readable metadata
+		// #[argh(switch, short = 'b')]
+		// verbatim: bool,
 		
 		/// writes more info to stderr
 		#[argh(switch, short = 'v')]
 		verbose: bool,
 		
-		/// don't prompt user on overwrite
-		#[argh(switch, short = 'f')]
-		force: bool,
+		// /// don't prompt user on overwrite
+		// #[argh(switch, short = 'f')]
+		// force: bool,
 	}
 	
 	let fa: FileArgs = argh::from_env();
 	
-	let simp = SimpleLogger::new();
-	if fa.verbose { // TODO: better way?
-		simp.init().expect("Failed to initialize logger");
+	if fa.verbose {
+		SimpleLogger::new().init().expect("Failed to initialize logger");
 	}
 	
 	// https://doc.rust-lang.org/std/path/struct.PathBuf.html
@@ -95,7 +93,7 @@ fn main() {
 			println!("{}", h);
 		},
 		Err(m) => {
-			info!("Likely is other file (because {})", m);
+			info!("Likely is some other file (because {})", m);
 			match String::from_utf8(input_bytes) {
 				Ok(mut file_text) => {
 					info!("Loaded source file from `{:?}`", input_file);
@@ -110,7 +108,7 @@ fn main() {
 					let file_size = file_text.len() as i32;
 					
 					let header = {
-						use sb_file::*;
+						use sb_file_lib::sb_file::*;
 						
 						let author = Author::new(b"V360", 42069);
 						
@@ -124,12 +122,20 @@ fn main() {
 						}
 					};
 					
-					let expected_length = sb_file::HEADER_LENGTH_SB3 + file_text.len() + sb_file::FOOTER_LENGTH;
+					let expected_length = {
+						use sb_file_lib::sb_file::*;
+						
+						HEADER_LENGTH_SB3 + file_text.len() + FOOTER_LENGTH
+					};
 					info!("Expecting file size to be {}.", expected_length);
 					
 					let header_bytes = header.make_header();
 					
-					let footer_bytes = sb_file::compute_footer(&header_bytes, file_text.as_bytes());
+					let footer_bytes = {
+						use sb_file_lib::sb_file::*;
+						
+						compute_footer(&header_bytes, file_text.as_bytes())
+					};
 					
 					if let Some(output_file) = &fa.output {
 						let output_file_prefixed = output_file.with_file_name(
@@ -153,6 +159,7 @@ fn main() {
 				},
 				Err(m) => {
 					info!("Doesn't seem to be text file (because {})", m);
+					error!("Unknown format");
 				},
 			}
 		}
