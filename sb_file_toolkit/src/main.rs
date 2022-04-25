@@ -12,7 +12,7 @@ use argh::{FromArgValue, FromArgs};
 extern crate log;
 use simple_logger::SimpleLogger;
 
-use sb_file_lib::sb_file::{CommonHeader, DataHeader};
+use sb_file_lib::sb_file::{CommonHeader, DataHeader, HEADER_LENGTH_SB3, FOOTER_LENGTH};
 
 fn main() {
 	// FIXME: would be nice if the output name was generated if not present
@@ -70,6 +70,10 @@ fn main() {
 		// /// don't prompt user on overwrite
 		// #[argh(switch, short = 'f')]
 		// force: bool,
+		
+		/// enables hot reloading
+		#[argh(switch, long = "hot")]
+		hot_reload: bool,
 	}
 	
 	let fa: FileArgs = argh::from_env();
@@ -91,11 +95,22 @@ fn main() {
 			
 			// TODO: more than this.
 			println!("{}", h);
+			
+			if let Some(output_file) = &fa.output {
+				let contents_len = input_bytes.len() - HEADER_LENGTH_SB3 - FOOTER_LENGTH;
+				let contents = &input_bytes[HEADER_LENGTH_SB3..][..contents_len];
+				
+				let mut out_file = fs::File::create(output_file)
+					.expect("Couldn't open file");
+				out_file.write_all(contents).expect("ah fuck");
+			}
 		},
 		Err(m) => {
 			info!("Likely is some other file (because {})", m);
 			match String::from_utf8(input_bytes) {
 				Ok(mut file_text) => {
+					use sb_file_lib::sb_file::*;
+					
 					info!("Loaded source file from `{:?}`", input_file);
 					
 					if file_text.contains("\r\n") {
@@ -107,35 +122,23 @@ fn main() {
 					
 					let file_size = file_text.len() as i32;
 					
-					let header = {
-						use sb_file_lib::sb_file::*;
-						
-						let author = Author::new(b"V360", 42069);
-						
-						CommonHeader {
-							file_type: FileType::Txt,
-							file_icon: FileIcon::Prg,
-							first_author: author,
-							curr_author: author,
-							file_size,
-							..Default::default()
-						}
+					let author = Author::new(b"V360", 42069);
+					
+					let header = CommonHeader {
+						file_type: FileType::Txt,
+						file_icon: FileIcon::Prg,
+						first_author: author,
+						curr_author: author,
+						file_size,
+						..Default::default()
 					};
 					
-					let expected_length = {
-						use sb_file_lib::sb_file::*;
-						
-						HEADER_LENGTH_SB3 + file_text.len() + FOOTER_LENGTH
-					};
+					let expected_length = HEADER_LENGTH_SB3 + file_text.len() + FOOTER_LENGTH;
 					info!("Expecting file size to be {}.", expected_length);
 					
 					let header_bytes = header.make_header();
 					
-					let footer_bytes = {
-						use sb_file_lib::sb_file::*;
-						
-						compute_footer(&header_bytes, file_text.as_bytes())
-					};
+					let footer_bytes = compute_footer(&header_bytes, file_text.as_bytes());
 					
 					if let Some(output_file) = &fa.output {
 						let output_file_prefixed = output_file.with_file_name(

@@ -60,20 +60,6 @@ impl fmt::Display for FileType {
 // compression - `bool`
 
 // icon - i8
-// /// 
-// /// Okay this is some strange notation, but it really just makes a lot easier
-// /// later on. Essentially, `User` files are TXT and DAT -- they're ones created
-// /// by programs running as per usual. `Editor` files are PRG and GRP -- okay
-// /// this actually breaks down quickly :(
-// ///
-// /// Alright here's my alternative -- `Base` and `Special`. `Base` file
-// /// icons are your TXTs and DATs, and `Special` file icons are simply the
-// /// alternate forms. Actually.. alternate fomrs?
-// ///
-// /// Okay *here's* the notation
-// /// 
-/// Fun little problem to see later
-/// FIXME: dataAlt and prgAlt are different
 #[repr(i16)]
 #[derive(Debug, Clone, Copy)]
 pub enum FileIcon { Normal = 0, Prg = 1, Grp = 2 }

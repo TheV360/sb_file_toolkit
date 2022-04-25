@@ -9,7 +9,8 @@ i wanna pick one of two modes :
 read a file or write a file.
 sub commands?
 
-and i guess when i try to automatically determine the filetype from the ext, i might need to have like `(FileType, Option<FileVersion>)` or some shit. if file version is none then it tries to figure out. prints out `use --sb-version 3/4 please` (and it does support `0` for internal sb3 file for whatever reason)
+and i guess when i try to automatically determine the filetype from the ext, i might need to have like `(FileType, Option<FileVersion>)` or some shit. if file version is none then it tries to figure out. prints out `use --sb-version 3/4 please` ~~(and it does support `0` for internal sb3 file for whatever reason)~~
+(internal doesn't matter as a distinct type. it should however be preserved round trip blah blah
 
 # How will metadata survive a round-trip?
 
@@ -126,4 +127,6 @@ i might still try to do that human-readable header thing, becuase it's cool.
 
 so, when load a file, i'll borrow the first 2 bytes to check the version, then branch based off that.
 
+## smart alternative
 
+just save a file alongside the thing like `.meta.sb3`.

@@ -89,6 +89,8 @@ The header ends at `&h50` on 3DS and `&h70` on Switch. Note that there's empty s
 
 TXT and PRG files just place the UTF-8 text after the footer. However, the DAT and GRP files need *more* information -- the data type, the dimensions, etc.. To store this, they employ a secondary header, stored immediately after the end of the first header. This secondary header stores information for SB to parse the file properly.
 
+(HEY PAST ME IS IT UTF-8? ARE YOU SURE ABOUT THAT!!!)
+
 The offset is relative to the end of the common header, so it will change position depending on the version of SmileBASIC in use.
 
 <!--(03 = 16 bit unsigned (colors as RGBA5551, used for GRPs), 04 = Signed 32 bit integers (int%), 05 = 64-bit double (real#)). GRPs in SB4 are stored as integer (data type &h04) DAT files since they use RGBA8888 encoding.-->
